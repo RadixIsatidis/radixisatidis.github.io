@@ -36,6 +36,12 @@
 		text-align: center;
 	}
 
+		#titleBarNarrower .title h2 {
+			background-color: rgba(0,0,0,0.45);
+			color: #333;
+			text-shadow: 0.5px 0.5px 0.5px #eee;
+		}
+
 	#titleBarNarrower .toggle
 	{
 		text-indent: -9999px;
