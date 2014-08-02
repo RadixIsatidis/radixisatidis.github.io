@@ -222,6 +222,12 @@
 		margin-bottom: 0;
 	}
 
+	section .archive-list-count
+	{
+		margin-left: 5px;
+		font-size: 75%;
+	}
+
 	.image
 	{
 		display: inline-block;
@@ -400,13 +406,15 @@
 				text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
 			}
 	.article-entry img,
-	.article-entry video {
+	.article-entry video 
+	{
 		max-width: 100%;
 		height: auto;
 		display: block;
 		margin: auto;
 	}
-	a img {
+	a img 
+	{
 		border: none;
 	}
 /*********************************************************************************/
