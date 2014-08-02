@@ -405,18 +405,64 @@
 				box-shadow: none;
 				text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
 			}
-	.article-entry img,
-	.article-entry video 
-	{
-		max-width: 100%;
-		height: auto;
-		display: block;
-		margin: auto;
-	}
-	a img 
-	{
-		border: none;
-	}
+		.article-entry .caption {
+			color: #999;
+			display: block;
+			font-size: 0.9em;
+			margin-top: 0.5em;
+			position: relative;
+			text-align: center;
+		}
+		.article-entry img,
+		.article-entry video 
+		{
+			max-width: 100%;
+			height: auto;
+			display: block;
+			margin: auto;
+		}
+		a img 
+		{
+			border: none;
+		}
+		.article-entry pre, 
+		.article-entry .highlight {
+			background: #2d2d2d;
+			margin: 0 -20px;
+			padding: 15px 20px;
+			border-style: solid;
+			border-color: #ddd;
+			border-width: 1px 0;
+			overflow: auto;
+			color: #ccc;
+			line-height: 22.400000000000002px;
+		}
+		.article-entry pre, 
+		.article-entry code {
+			font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+		}
+			.article-entry .highlight pre {
+				border: none;
+				margin: 0;
+				padding: 0;
+			}
+		.article-entry .highlight table {
+			margin: 0;
+			width: auto;
+			border-collapse: collapse;
+			border-spacing: 0;
+			line-height: 1.6em;
+			vertical-align: middle;
+		}
+		.article-entry .highlight .gutter pre, 
+		.article-entry .gist .gist-file .gist-data .line-numbers {
+			color: #666;
+			font-size: 0.85em;
+		}
+		.article-entry .highlight .gutter pre {
+			text-align: right;
+			padding-right: 20px;
+		}
 /*********************************************************************************/
 /* Icons                                                                         */
 /* Powered by Font Awesome by Dave Gandy | http://fontawesome.io                 */
