@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  <meta charset="utf-8">
+  
+  <title>排序算法二三事 | 砖头的博</title>
+  <meta name="author" content="Yan Lee">
+  
+  <meta name="description" content="某砖唠嗑的地方">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="排序算法二三事"/>
+  <meta property="og:site_name" content="砖头的博"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+  <script src="/js/skel.min.js"></script>
+  <script src="/js/skel-panels.min.js"></script>
+  <script src="/js/init.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/skel-noscript.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style-desktop.css" />
+    <link rel="stylesheet" href="/css/style-wide.css" />
+  </noscript>
+
+  <!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
+  <!--[if lte IE 8]><script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+  <!--[if lte IE 7]><link rel="stylesheet" href="css/ie7.css" /><![endif]-->
+  <link rel="alternate" href="/atom.xml" title="砖头的博" type="application/atom+xml">
+  <link rel="stylesheet" href="/js/styles/tomorrow-night.css" />
+  <script src="/js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-53208850-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+<body class="left-sidebar">
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Content -->
+    <div id="content">
+      <div id="content-inner">
+	<!-- Post -->
+<article class="is-post is-post-excerpt">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h2>排序算法二三事</h2>
+  
+
+
+    </header>
+  <div class="info">
+    <!--
+	Note: The date should be formatted exactly as it's shown below. In particular, the
+	"least significant" characters of the month should be encapsulated in a <span>
+	element to denote what gets dropped in 1200px mode (eg. the "uary" in "January").
+	Oh, and if you don't need a date for a particular page or post you can simply delete
+	the entire "date" element.
+	
+      -->
+    <span class="date"><span class="month">8月</span> <span class="day">2</span><span class="year">, 2014</span></span>
+    <!--
+	Note: You can change the number of list items in "stats" to whatever you want.
+      -->
+
+    <ul class="stats">
+      
+
+      <!--
+      <li><a href="#" class="fa fa-comment">16</a></li>
+      <li><a href="#" class="fa fa-heart">32</a></li>
+      <li><a href="#" class="fa fa-twitter">64</a></li>
+      <li><a href="#" class="fa fa-facebook">128</a></li>
+      -->
+    </ul>
+
+  </div>
+  <div class="entry article-entry">
+  
+    <p>今天来说说关于排序算法的事情。<br>在正式开始之前唠嗑点别的。这篇文章里边用到的素材，起因是打算写一个可以调用各种算法的dll。当写完算法之后好奇，就干脆写了测试用例来验证各算法运行效率，于是就有了以下内容。<br><a id="more"></a><br>基本上所有数据结构的课程都有关于排序算法的内容。事实上，这么多年来排序算法也算是发展到了一定程度，任何算法只要网上一搜都能有超巨量的信息，wiki上还有现成的、各语言实现的算法，效率都不错。不过这篇文章在于列数据对比以下各算法的运行时间，我所用的代码在文后的链接可以找到。<br>首先简单介绍用到的几个算法，附带wiki链接：<br><a href="http://en.wikipedia.org/wiki/Bubble_sort" target="_blank" rel="external">冒泡排序(bubble sort)</a><br><a href="http://en.wikipedia.org/wiki/Heapsort" target="_blank" rel="external">堆排序(heap sort)</a><br><a href="http://en.wikipedia.org/wiki/Insertion_sort" target="_blank" rel="external">插入排序(insertion sort)</a><br><a href="http://en.wikipedia.org/wiki/Introsort" target="_blank" rel="external">内省排序(intro sort)</a><br><a href="http://en.wikipedia.org/wiki/Merge_sort" target="_blank" rel="external">归并排序(merge sort)</a><br><a href="http://en.wikipedia.org/wiki/Quicksort" target="_blank" rel="external">快速排序(quick sort)</a><br><a href="http://en.wikipedia.org/wiki/Selection_sort" target="_blank" rel="external">选择排序(selection sort)</a><br><a href="http://en.wikipedia.org/wiki/Shellsort" target="_blank" rel="external">希尔排序(shell sort)</a><br>事先说明一点，程序仅仅做了必要的代码优化，而且都是单线程运行。多线程优化这种类似作弊的方法没有用，不过，不代表像是归并啊，快排啊，内省啊之类的算法，我以后不会写多线程版本。<br>这次比较，会使用长度从10到47000的样本，每个算法运行9005次，并抛弃前5次的统计数据然后算平均值。每次运行都会重新产生一个数组用于排序，尽可能保证能在充分随机的情况下执行。<br><img src="/images/2014-08-02/sorts/figure-1.png" alt="Figure1: 排序时间参考" title="Figure1: 排序时间参考"><br>对表格做部分说明。STL迭代方式，是使用C++的STL库的容器和迭代器等方式来处理数据，间接排序是使用C风格的数组，但是使用一个比较器来作为比较大小的工具。C风格数组顾名思义，是非常传统的做法，直接在C风格数组上做排序操作。<br>为了简化部分数据，时间仅保留小数点后4位。再精确多几位不是不可能，但已经没有讨论的意义了。时间当中的9999.0000则是在设置的超时时间内无法完成一次排序。超时时间具体多少我得翻代码，不过记得是非常长……于是就代表这种算法在如此数据量下已经无法愉快的排序了。<br>来一张震撼一点的：<br><img src="/images/2014-08-02/sorts/figure-2.png" alt="Figure2: 排序时间图表" title="Figure2: 排序时间图表"><br>这张表纵轴是时间，横轴是数据量。从表中可以很清晰的看到排序时间恶化情况。三种基本的排序方式，选择、冒泡、插入排序，在数据量8000以后就非常艰难了（冒泡和选择无法完成排序），插入也在12000之后歇菜。堆排序和希尔排序曲线上升比较平滑，不过照这个趋势下去，跪掉也是迟早的事情。归并和快排应当是处于同一个级别的，曲线上升情况类似，不过总的来说快排数据好看一点。这两种算法都可以在多线程模式下工作，如果应用多线程技术，数据应当会好看一些，特别是数据量继续增大的情况下。<br>最后说收内省排序。与其他排序不同，这种排序是一种复合型排序。其原型是快排，但是做了两点改进：   </p>
+<ol>
+<li>在快排切分区块到一定阈值情况下，更换排序方式。   </li>
+<li>取枢纽元素时，改用三分取中的方式，区间首尾中间取三个数，选择值为中间数的那个作为枢纽。   </li>
+</ol>
+<p>改进的原理在于快排在小数组和基本有序情况下无法迅速收敛。事实证明，这些改进让算法快了一个数量级，同时由于基本思想和快排一样，于是可以改成多线程版本。<br>来看看其他算法和内省的差距：<br><img src="/images/2014-08-02/sorts/figure-3.png" alt="Figure3: 其他算法与内省排序时间比较" title="Figure3: 其他算法与内省排序时间比较"><br>计算方法\(p=(T-I)/I\). 其中，<code>T</code>为其他算法时间，<code>I</code>为内省排序时间。<br>在阈值10以下，使用的是插入排序，因此样本长度为10时内省退化为插入排序。与其他算法对比，在样本长度较小时，内省都比其他算法快一个数量级以上。区别在于1400到3000这一段，内省比快排略慢。原因可能在于算法切换和取中数等消耗了原本的时间提升量。但是不管如何，随着样本数量的增加，其他算法的运行时间均在持续恶化，内省排序的优越性迅速体现。<br>最后再来看看，32位程序和64位程序的效率差别：<br><img src="/images/2014-08-02/sorts/figure-4.png" alt="Figure4: 32bit和64bit程序运行时间比较" title="Figure4: 32bit和64bit程序运行时间比较"><br>计算方法：\(p=(T_{64}-T_{32})/T_{32}\)<br>事实证明，64位程序比32位程序快了一个数量级。至此，还有什么理由不切换到64位平台？<br>你们感受一下。   </p>
+
+  
+  </div>
+  <footer>
+    
+      
+  
+  <div class="categories">
+    <a href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+
+      
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>, <a href="/tags/Sorts/">Sorts</a>
+  </div>
+
+
+      
+
+    
+  </footer>
+</article>
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+  
+</section>
+
+
+
+
+      </div>
+    </div>
+    <div id="sidebar">
+  <!-- Logo -->
+  <div id="logo">
+    <h1>砖头的博</h1>
+    <h2>某砖唠嗑的地方</h2>
+  </div>
+  
+  <!-- Nav -->
+  <nav id="nav">
+    <ul>
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+
+
+  <!-- Hexo Widgets -->
+  
+    
+<section>
+  <h2>分类</h2>
+  <ul>
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>2</small></li>
+  
+    <li><a href="/categories/Essay/">Essay</a><small>1</small></li>
+  
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>1</small></li>
+  
+  </ul>
+</section>
+
+
+
+  
+    
+<section>
+  <h2>标签</h2>
+  <ul>
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a>2</li>
+  
+    <li><a href="/tags/Blog/">Blog</a>1</li>
+  
+    <li><a href="/tags/Essay/">Essay</a>1</li>
+  
+    <li><a href="/tags/JavaScript/">JavaScript</a>1</li>
+  
+    <li><a href="/tags/Pattern-Match/">Pattern Match</a>1</li>
+  
+    <li><a href="/tags/Sorts/">Sorts</a>1</li>
+  
+    <li><a href="/tags/继承/">继承</a>1</li>
+  
+  </ul>
+</section>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+<section class="is-recent-posts">
+  <h2>最新文章</h2>
+  <ul>
+    
+      <li>
+        <a href="/2014/08/02/sorts/">排序算法二三事</a>
+      </li>
+    
+      <li>
+        <a href="/2014/07/27/fack-extends/">用JavaScript模拟Java的继承</a>
+      </li>
+    
+      <li>
+        <a href="/2014/07/21/pattern-match---boyer-moore/">Boyer-Moore经典单模式匹配算法</a>
+      </li>
+    
+      <li>
+        <a href="/2014/07/21/hello-world/">Hello World!!!</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+  
+
+  <!-- Copyright -->
+  <div id="copyright">
+  
+  &copy; 2014 Yan Lee
+  
+  Powered by: <a href="https://github.com/tommy351/hexo">Hexo</a><br />
+  Designed by: <a href="http://html5up.net/">HTML5 UP</a>
+  <p>
+    
+    
+    
+
+   </p>
+</div>
+
+
+
+</div>
+
+    <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </div>
+</body>
+</html>
