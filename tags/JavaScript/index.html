@@ -3,7 +3,7 @@
   <head>
   <meta charset="utf-8">
   
-  <title>Hello World!!! | 砖头的博</title>
+  <title>JavaScript | 砖头的博</title>
   <meta name="author" content="Yan Lee">
   
   <meta name="description" content="某砖唠嗑的地方">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Hello World!!!"/>
+  
   <meta property="og:site_name" content="砖头的博"/>
 
   
@@ -62,7 +62,12 @@
     <!-- Content -->
     <div id="content">
       <div id="content-inner">
-	<!-- Post -->
+	
+<h2 class="archive-title tag">JavaScript</h2>
+
+
+  
+    <!-- Post -->
 <article class="is-post is-post-excerpt">
   
     <div class="gallery">
@@ -82,7 +87,7 @@
     <header>
       
   
-    <h2>Hello World!!!</h2>
+    <h2><a href="/2014/07/27/fack-extends/">用JavaScript模拟Java的继承</a></h2>
   
 
 
@@ -96,7 +101,7 @@
 	the entire "date" element.
 	
       -->
-    <span class="date"><span class="month">7月</span> <span class="day">21</span><span class="year">, 2014</span></span>
+    <span class="date"><span class="month">7月</span> <span class="day">27</span><span class="year">, 2014</span></span>
     <!--
 	Note: You can change the number of list items in "stats" to whatever you want.
       -->
@@ -115,36 +120,28 @@
   </div>
   <div class="entry article-entry">
   
-    <p>根据程序员的传统，第一篇文章必须是”Hello World!!!”, 大小写标点符号全中，一个都不能少。<br>原以为开博这种事会离我很远的，不大喜欢写东西，有时间玩文字游戏还不如多写两行代码。然而最近发觉自己越来越健忘了，不是大脑退化，而是接触的东西越来越多，已经达不到那种需要用时很快想到那种状态了。在别人看来，就是你反应越来越慢，或者说，你这货根本就是不懂装懂。于是。。。好吧，写个博。<br>一是为了把一些需要记录的东西记下来。虽然其实不开博也能做到，但是开了博，自然会有一些别的好处，比如:<br>二是为了秀优越感、找存在感，你看，一大波干货，我懂的你们都不懂balabala。。。<br>三是做个预防，找工作时候好歹加点筹码<br>还有个临时想到的好处，妹子要转行做前端，回头这个博就给她设计吧，纯当练手，反正有我看着出不了啥大问题。<br>第一篇就到这吧。准备好了么，一大波干货来袭。</p>
-
+    <p>在正文开始之前，先唠嗑一点别的。<br>JS的原型链继承的思想非常优秀，但易用性终究没有Java/C++来得好，而且事实上大家都更倾向于使用后者。程序员的世界，简单易用第一。<br>事实上，网上有很多种解决方案提供了类似后者的继承，但是都各有缺陷。要么只是简单的扩展，将父类的方法绑定到子类上，比如各种库的<code>extends</code>方法。要么引入整个巨型开发库，更有甚者直接污染JS原生对象。这里点名批评PrototypeJS，虽然我的方法从它那里学来。用这个库，唯一目的就是它的继承帮助函数，然而PrototypeJS本身是个极大的开发库，而且Bug众多，少人维护，污染JS原生对象，还有最重要的$符。<br>另外提一下WinJS，我的另一个灵感来源。在WinJS出来之前我甚至没能想到微软在JS上有如此造诣。WinJS是个非常碉堡的JS开发库，值得一试。但是为了一个继承帮助函数引入一个完整的开发库，这是极不明智的。<br>
   
   </div>
   <footer>
     
-      
-  
-  <div class="categories">
-    <a href="/categories/Essay/">Essay</a>
-  </div>
-
-
-      
-  
-  <div class="tags">
-    <a href="/tags/Blog/">Blog</a>, <a href="/tags/Essay/">Essay</a>
-  </div>
-
-
-      
-
+     
+      <a href="/2014/07/27/fack-extends/#more" class="more-link">Read More</a>
+     
+     
     
   </footer>
 </article>
 
-<section id="comment">
-  <h1 class="title">留言</h1>
+
+
   
-</section>
+
+  <!-- Pager -->
+<div class="pager">
+  
+  
+</div>
 
 
 
