@@ -142,7 +142,7 @@ $(function(){
 			}
 		};
 
-	}, 500);
+	}, 200);
 
 	$document.on('scroll', function (e) {
 		// console.log(e);
