@@ -123,7 +123,7 @@ $(function(){
 		}
 
 		if (actionBar) {
-			threshold = actionBar._childTitle.height() / 2;
+			threshold = actionBar._childTitle.height() / 3;
 			if (true === direction) {
 				// 向下滚动
 				var height = actionBar._childTitle.height();
