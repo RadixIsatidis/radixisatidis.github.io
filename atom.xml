@@ -4,7 +4,7 @@
   <subtitle><![CDATA[某砖唠嗑的地方]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="https://yanleaon.github.io/"/>
-  <updated>2014-08-03T10:44:50.905Z</updated>
+  <updated>2014-08-23T03:23:26.374Z</updated>
   <id>https://yanleaon.github.io/</id>
   
   <author>
@@ -13,6 +13,33 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Canvas百叶窗动画(一)]]></title>
+    <link href="https://yanleaon.github.io/2014/08/23/canvas-blinds-animation/"/>
+    <id>https://yanleaon.github.io/2014/08/23/canvas-blinds-animation/</id>
+    <published>2014-08-23T03:17:16.000Z</published>
+    <updated>2014-08-23T03:22:37.000Z</updated>
+    <content type="html"><![CDATA[<p>这是一个老早就弄过了的动画，效果大概就这个样子<br><img src="/images/2014-08-23/canvas-blinds-animation/figure-1.png" alt="Figure1: 百叶窗动画效果" title="Figure1: 百叶窗动画效果"><br>这次就来说说这玩意的大概做法。<br>正事开始之前扯一些别的。一开始其实这个动画是DOM版本的。但是做完之后发觉CPU占用太高，而且移动端跑起来效率太渣，于是想到干脆切换成canvas绘制吧，虽然编程难度会高，但效果和性能都会好一些。<br>用canvas做动画，如果不牵扯到其他第三方库，直接写原生JS，难度是很高的。主要是canvas这系列API其实都非常接近底层，而且任何语言里边实现都一个样，想想看你都直接画贝塞尔曲线了……<br><a id="more"></a><br>说起来，canvas这一系列API理解起来挺简单的，由一个图形上下文接受用户的请求在画面上绘制东西。如果不牵扯到太多的底层实现，那么它所提供的API，诸如绘制点、线、圆、矩形等等，都是根据用户提供的参数和某个函数计算式计算出点的轨迹然后绘制出来。具体哪些公式，初中水平就OK，虽然内部实现肯定不是这样，但是起码方法参数不会差，照这么理解也行，如果非要牵扯底层，贝塞尔曲线应该能让你理解一点关于计算机绘图的知识，其实那些常用图形最后会转为绘制多段贝塞尔曲线，再往下……别这么穷根究底好么，翻计算机图形学论文吧，这不是我写这篇博的目的。<br>用JS进行canvas绘图主要使用canvas的context对象发出命令。这个context会保存一系列状态以及状态栈，对context执行一些设置命令，如字体、线宽、颜色等会更改它的状态，执行保存(save)和恢复(restore)方法会在状态栈中保存和弹出状态。然后当用户调用其它绘制方法时，根据这些状态绘制图形。<br>说到这里，其实上边那个百叶窗效果也就呼之欲出了。整个效果实现关键点：   </p>
+<ol>
+<li>持续且有顺序的动画   </li>
+<li>图片缩放绘制，即像素点从图片空间到画布空间的转换<br>JS的canvas真的就是画布而已，真要画点什么东西也就是一张图而已，不涉及动画。当然我们都知道连续的图片就能成动画，连续绘制不同的图，画面就动起来了。实现持续的动画关键在于JS的setInterval方法或者是其他几个尚在草案中的高效方法，不过都无所谓，对于简单过场动画来说，它的性能足够了。然后，代码看起来应该是这个样子的：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> handle = setInterval(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{   </div><div class="line">    …   </div><div class="line">}, <span class="number">15000</span>);   </div></pre></td></tr></table></figure><br>我们决定每15秒执行一次重绘。别着急，这仅仅是最外层循环。实际上从程序设计角度上来说，你既可以在这里确定动画帧数并在每次循环当中绘制所有需要的东西，也可以把这里仅用于发起一次重绘，而将各部分的绘制交给他们自己解决。究竟用哪种方法个人，在这里我只能说，当初我仅仅是这么写而已，哪种方法好我没做太多测试，或者回头我改造一下做这种版本的来玩玩。<br>那么我们看看，一次重绘会发生多少事情：   </li>
+<li>百叶窗展开   </li>
+<li>更换图片   </li>
+<li>百叶窗收缩<br>这里说的是一条百叶窗，也就是那一根竖条，你也可以做成圆点、横条、星星等等任何你愿意绘制的遮罩图形。当所有百叶窗条完成了动画，那么一次重绘就完成了，之后等待下一次重绘。<br>如何，原理很简单吧，之后会用几篇博放出代码说明。<br>你们感受一下。   </li>
+</ol>
+]]></content>
+    <summary type="html"><![CDATA[<p>这是一个老早就弄过了的动画，效果大概就这个样子<br><img src="/images/2014-08-23/canvas-blinds-animation/figure-1.png" alt="Figure1: 百叶窗动画效果" title="Figure1: 百叶窗动画效果"><br>这次就来说说这玩意的大概做法。<br>正事开始之前扯一些别的。一开始其实这个动画是DOM版本的。但是做完之后发觉CPU占用太高，而且移动端跑起来效率太渣，于是想到干脆切换成canvas绘制吧，虽然编程难度会高，但效果和性能都会好一些。<br>用canvas做动画，如果不牵扯到其他第三方库，直接写原生JS，难度是很高的。主要是canvas这系列API其实都非常接近底层，而且任何语言里边实现都一个样，想想看你都直接画贝塞尔曲线了……<br>]]></summary>
+    
+      <category term="JavaScript" scheme="https://yanleaon.github.io/tags/JavaScript/"/>
+    
+      <category term="Canvas" scheme="https://yanleaon.github.io/tags/Canvas/"/>
+    
+      <category term="Animation" scheme="https://yanleaon.github.io/tags/Animation/"/>
+    
+      <category term="JavaScript" scheme="https://yanleaon.github.io/categories/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[排序算法二三事]]></title>
@@ -42,7 +69,7 @@
     <link href="https://yanleaon.github.io/2014/07/27/fack-extends/"/>
     <id>https://yanleaon.github.io/2014/07/27/fack-extends/</id>
     <published>2014-07-27T11:24:14.000Z</published>
-    <updated>2014-07-27T04:20:53.000Z</updated>
+    <updated>2014-08-23T03:22:27.000Z</updated>
     <content type="html"><![CDATA[<p>在正文开始之前，先唠嗑一点别的。<br>JS的原型链继承的思想非常优秀，但易用性终究没有Java/C++来得好，而且事实上大家都更倾向于使用后者。程序员的世界，简单易用第一。<br>事实上，网上有很多种解决方案提供了类似后者的继承，但是都各有缺陷。要么只是简单的扩展，将父类的方法绑定到子类上，比如各种库的<code>extends</code>方法。要么引入整个巨型开发库，更有甚者直接污染JS原生对象。这里点名批评PrototypeJS，虽然我的方法从它那里学来。用这个库，唯一目的就是它的继承帮助函数，然而PrototypeJS本身是个极大的开发库，而且Bug众多，少人维护，污染JS原生对象，还有最重要的$符。<br>另外提一下WinJS，我的另一个灵感来源。在WinJS出来之前我甚至没能想到微软在JS上有如此造诣。WinJS是个非常碉堡的JS开发库，值得一试。但是为了一个继承帮助函数引入一个完整的开发库，这是极不明智的。<br><a id="more"></a></p>
 <p>好了，话归正题。工欲善其事，必先利其器，首先列举开发目标：   </p>
 <ol>

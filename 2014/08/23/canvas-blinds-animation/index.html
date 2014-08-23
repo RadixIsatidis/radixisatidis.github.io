@@ -3,7 +3,7 @@
   <head>
   <meta charset="utf-8">
   
-  <title>Hello World!!! | 砖头的博</title>
+  <title>Canvas百叶窗动画(一) | 砖头的博</title>
   <meta name="author" content="Yan Lee">
   
   <meta name="description" content="某砖唠嗑的地方">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Hello World!!!"/>
+  <meta property="og:title" content="Canvas百叶窗动画(一)"/>
   <meta property="og:site_name" content="砖头的博"/>
 
   
@@ -70,7 +70,7 @@
     <header>
       
   
-    <h2>Hello World!!!</h2>
+    <h2>Canvas百叶窗动画(一)</h2>
   
 
 
@@ -84,7 +84,7 @@
 	the entire "date" element.
 	
       -->
-    <span class="date"><span class="month">7月</span> <span class="day">21</span><span class="year">, 2014</span></span>
+    <span class="date"><span class="month">8月</span> <span class="day">23</span><span class="year">, 2014</span></span>
     <!--
 	Note: You can change the number of list items in "stats" to whatever you want.
       -->
@@ -103,7 +103,14 @@
   </div>
   <div class="entry article-entry">
   
-    <p>根据程序员的传统，第一篇文章必须是”Hello World!!!”, 大小写标点符号全中，一个都不能少。<br>原以为开博这种事会离我很远的，不大喜欢写东西，有时间玩文字游戏还不如多写两行代码。然而最近发觉自己越来越健忘了，不是大脑退化，而是接触的东西越来越多，已经达不到那种需要用时很快想到那种状态了。在别人看来，就是你反应越来越慢，或者说，你这货根本就是不懂装懂。于是。。。好吧，写个博。<br>一是为了把一些需要记录的东西记下来。虽然其实不开博也能做到，但是开了博，自然会有一些别的好处，比如:<br>二是为了秀优越感、找存在感，你看，一大波干货，我懂的你们都不懂balabala。。。<br>三是做个预防，找工作时候好歹加点筹码<br>还有个临时想到的好处，妹子要转行做前端，回头这个博就给她设计吧，纯当练手，反正有我看着出不了啥大问题。<br>第一篇就到这吧。准备好了么，一大波干货来袭。</p>
+    <p>这是一个老早就弄过了的动画，效果大概就这个样子<br><img src="/images/2014-08-23/canvas-blinds-animation/figure-1.png" alt="Figure1: 百叶窗动画效果" title="Figure1: 百叶窗动画效果"><br>这次就来说说这玩意的大概做法。<br>正事开始之前扯一些别的。一开始其实这个动画是DOM版本的。但是做完之后发觉CPU占用太高，而且移动端跑起来效率太渣，于是想到干脆切换成canvas绘制吧，虽然编程难度会高，但效果和性能都会好一些。<br>用canvas做动画，如果不牵扯到其他第三方库，直接写原生JS，难度是很高的。主要是canvas这系列API其实都非常接近底层，而且任何语言里边实现都一个样，想想看你都直接画贝塞尔曲线了……<br><a id="more"></a><br>说起来，canvas这一系列API理解起来挺简单的，由一个图形上下文接受用户的请求在画面上绘制东西。如果不牵扯到太多的底层实现，那么它所提供的API，诸如绘制点、线、圆、矩形等等，都是根据用户提供的参数和某个函数计算式计算出点的轨迹然后绘制出来。具体哪些公式，初中水平就OK，虽然内部实现肯定不是这样，但是起码方法参数不会差，照这么理解也行，如果非要牵扯底层，贝塞尔曲线应该能让你理解一点关于计算机绘图的知识，其实那些常用图形最后会转为绘制多段贝塞尔曲线，再往下……别这么穷根究底好么，翻计算机图形学论文吧，这不是我写这篇博的目的。<br>用JS进行canvas绘图主要使用canvas的context对象发出命令。这个context会保存一系列状态以及状态栈，对context执行一些设置命令，如字体、线宽、颜色等会更改它的状态，执行保存(save)和恢复(restore)方法会在状态栈中保存和弹出状态。然后当用户调用其它绘制方法时，根据这些状态绘制图形。<br>说到这里，其实上边那个百叶窗效果也就呼之欲出了。整个效果实现关键点：   </p>
+<ol>
+<li>持续且有顺序的动画   </li>
+<li>图片缩放绘制，即像素点从图片空间到画布空间的转换<br>JS的canvas真的就是画布而已，真要画点什么东西也就是一张图而已，不涉及动画。当然我们都知道连续的图片就能成动画，连续绘制不同的图，画面就动起来了。实现持续的动画关键在于JS的setInterval方法或者是其他几个尚在草案中的高效方法，不过都无所谓，对于简单过场动画来说，它的性能足够了。然后，代码看起来应该是这个样子的：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> handle = setInterval(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{   </div><div class="line">    …   </div><div class="line">}, <span class="number">15000</span>);   </div></pre></td></tr></table></figure><br>我们决定每15秒执行一次重绘。别着急，这仅仅是最外层循环。实际上从程序设计角度上来说，你既可以在这里确定动画帧数并在每次循环当中绘制所有需要的东西，也可以把这里仅用于发起一次重绘，而将各部分的绘制交给他们自己解决。究竟用哪种方法个人，在这里我只能说，当初我仅仅是这么写而已，哪种方法好我没做太多测试，或者回头我改造一下做这种版本的来玩玩。<br>那么我们看看，一次重绘会发生多少事情：   </li>
+<li>百叶窗展开   </li>
+<li>更换图片   </li>
+<li>百叶窗收缩<br>这里说的是一条百叶窗，也就是那一根竖条，你也可以做成圆点、横条、星星等等任何你愿意绘制的遮罩图形。当所有百叶窗条完成了动画，那么一次重绘就完成了，之后等待下一次重绘。<br>如何，原理很简单吧，之后会用几篇博放出代码说明。<br>你们感受一下。   </li>
+</ol>
 
   
   </div>
@@ -112,14 +119,14 @@
       
   
   <div class="categories">
-    <a href="/categories/Essay/">Essay</a>
+    <a href="/categories/JavaScript/">JavaScript</a>
   </div>
 
 
       
   
   <div class="tags">
-    <a href="/tags/Blog/">Blog</a>, <a href="/tags/Essay/">Essay</a>
+    <a href="/tags/JavaScript/">JavaScript</a>, <a href="/tags/Canvas/">Canvas</a>, <a href="/tags/Animation/">Animation</a>
   </div>
 
 
